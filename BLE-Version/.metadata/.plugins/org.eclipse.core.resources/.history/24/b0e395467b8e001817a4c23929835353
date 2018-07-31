@@ -1,0 +1,27 @@
+package com.massage.activity;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+
+public class LoginActivity extends Activity {
+
+	/**
+	 * ¿Ø¼þ¶¨Òå
+	 */
+	private EditText et_username = null;
+	private EditText et_password = null;
+	private CheckBox cb_rem = null;
+	private Button bt_login = null;
+	private Context mContext = null;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_login);
+	}
+}

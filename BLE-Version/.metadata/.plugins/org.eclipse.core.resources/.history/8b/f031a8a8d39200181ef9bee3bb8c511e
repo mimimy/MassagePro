@@ -1,0 +1,29 @@
+package com.massage.activity.ui;
+
+import com.massage.activity.R;
+
+import android.app.Activity;
+import android.view.View;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+public class BasePager {
+
+	public TextView tv_show;
+	public Activity mActivity;
+	public Spinner spinner_time;
+	public BasePager(Activity activity) {
+		// TODO Auto-generated constructor stub
+		mActivity = activity;
+	}
+	
+	public View initView() {
+		View view = View.inflate(mActivity, R.layout.base_pager, null);
+		tv_show = (TextView) view.findViewById(R.id.tv_show);
+		Spinner spinner_time = (Spinner) view.findViewById(R.id.spinner_time);
+		view.findViewById(R.id.picker_pressure);
+		view.findViewById(R.id.btn_click);
+		return view;
+		
+	}
+}

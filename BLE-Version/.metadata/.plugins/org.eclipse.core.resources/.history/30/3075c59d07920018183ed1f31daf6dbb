@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:togview="http://schemas.android.com/apk/res/com.hp.toggleview"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".MainActivity" 
+    android:orientation="vertical">
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal">
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:text="蓝牙"/>
+
+	    <com.hp.toggleview.ToggleView
+	        android:id="@+id/toggleView"
+	        android:layout_width="98dp"
+	        android:layout_height="26dp"
+	        android:layout_centerInParent="true"
+	        togview:slide_button="@drawable/slide_button"
+	        togview:switch_background="@drawable/switchbg"
+	        togview:switch_state="false" >
+		</com.hp.toggleview.ToggleView>
+	   </LinearLayout>
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical">
+
+		<Button
+		    android:id="@+id/button1"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="Button" />
+
+		<Button
+		    android:id="@+id/button2"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="Button" />
+		<ListView 
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content">
+		    
+		</ListView>
+	    
+	</LinearLayout>
+
+</LinearLayout>

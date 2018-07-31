@@ -1,0 +1,320 @@
+package com.massage.activity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.bluetooth.BluetoothGattService;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.graphics.RadialGradient;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.NumberPicker;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+ public class HomeActivity extends Activity {
+    public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
+    public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
+    private String mDeviceName;
+    private String mDeviceAddress;
+    private boolean mConnected = false; 
+    boolean connect_status_bit=false;
+    View viewPager1,viewPager2;
+    ViewPager mviewPager;
+    List<View> viewPagers = null;
+    ContentAdapter mAdapter;
+    private BluetoothLeService mBluetoothLeService;
+	private RadioGroup radioGroup;
+	RadioButton home,anoter;
+	
+    private static IntentFilter makeGattUpdateIntentFilter() {
+        final IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
+        intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
+        intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
+        return intentFilter;
+    }
+    private final ServiceConnection mServiceConnection = new ServiceConnection() {
+
+        public void onServiceConnected(ComponentName componentName, IBinder service) {
+            mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
+            if (!mBluetoothLeService.initialize()) {
+                Log.e("TAG", "Unable to initialize Bluetooth");
+                finish();
+            }
+            // Automatically connects to the device upon successful start-up initialization.
+            mBluetoothLeService.connect(mDeviceAddress);
+        }
+        public void onServiceDisconnected(ComponentName componentName) {
+            mBluetoothLeService = null;
+        }
+    };	
+    
+    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
+           
+                connect_status_bit=true;
+                
+                invalidateOptionsMenu();
+            } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
+                mConnected = false;
+                
+                 updateConnectionState(R.string.disconnected);
+                connect_status_bit=false;
+                invalidateOptionsMenu();
+               // clearUI();
+            } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+                // Show all the supported services and characteristics on the user interface.
+                displayGattServices(mBluetoothLeService.getSupportedGattServices());
+            } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
+                //displayData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
+            }
+        }
+    };
+
+
+    private void updateConnectionState(final int resourceId) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+               Toast.makeText(getApplicationContext(), "连接成功", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+	
+
+    private void displayGattServices(List<BluetoothGattService> gattServices) {
+        if (gattServices == null) return;
+
+        if( gattServices.size()>0&&mBluetoothLeService.get_connected_status( gattServices )>=4 )
+        {
+	        if( connect_status_bit )
+			  {
+	        	mConnected = true;
+				mBluetoothLeService.enable_JDY_ble(true,1);//IO输出功能功能
+				 try {  
+			            Thread.currentThread();  
+			            Thread.sleep(100);  
+			        } catch (InterruptedException e) {  
+			            e.printStackTrace();  
+			        }
+				 mBluetoothLeService.send_io_data( "f6" );//IO输出功能功能
+				 updateConnectionState(R.string.connected);
+			  }else{
+
+			  }
+        }
+        
+        
+ 
+    }
+    
+    protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_home);
+        final Intent intent = getIntent();
+        mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
+        mDeviceAddress = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
+
+		boolean sg;
+        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
+        sg = bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+        
+		initViewPager();
+		radioInit();
+		
+	}
+    
+    private void radioInit() {
+		// TODO Auto-generated method stub
+    	radioGroup =	(RadioGroup) findViewById(R.id.radioGroup);
+    	home = findViewById(R.id.home);
+    	another = findViewById(R.id.another);
+	}
+
+
+	@SuppressLint("InflateParams") 
+    private void initViewPager() {
+		// TODO Auto-generated method stub
+		mviewPager = (ViewPager) findViewById(R.id.viewPager);
+		viewPagers = new ArrayList<View>();
+//		viewPager1 = findViewById(R.layout.base_pager);
+//
+//		viewPager2 = findViewById(R.layout.second_pager);
+		viewPager1 = View.inflate(HomeActivity.this,R.layout.base_pager,null);
+		viewPager2 = View.inflate(HomeActivity.this,R.layout.base_pager,null);
+		
+		initPager1();
+		initPager2();
+		viewPagers.add(viewPager1);
+		viewPagers.add(viewPager2);
+		//mAdapter = new ContentAdapter(viewPagers);
+		mviewPager.setAdapter(new ContentAdapter(viewPagers));
+		//mviewPager.setCurrentItem(0);
+		mviewPager.setOnPageChangeListener(new OnPageChangeListener() {
+			
+			@Override
+			public void onPageSelected(int arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
+
+	private void initPager2() {
+		// TODO Auto-generated method stub
+		Spinner spinner_time = (Spinner)viewPager2.findViewById(R.id.spinner_time);
+	}
+
+
+	private void initPager1() {
+		// TODO Auto-generated method stub
+		Spinner spinner_time = (Spinner)viewPager1.findViewById(R.id.spinner_time);
+		NumberPicker picker_pressure = (NumberPicker)viewPager1.findViewById(R.id.picker_pressure);
+        ArrayList<String> data_list = new ArrayList<String>();
+        data_list.add("10分钟");
+        data_list.add("20分钟");
+        data_list.add("30分钟");
+        data_list.add("40分钟");
+        data_list.add("50分钟");
+        data_list.add("60分钟");
+        //适配器
+
+        ArrayAdapter<String> arr_adapter= new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data_list);
+        //设置样式
+        arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //加载适配器
+        spinner_time.setAdapter(arr_adapter);
+        //一定要用这个函数，不然会自动调用OnItemListener这个函数
+        spinner_time.setSelection(0,true);
+        
+        String[] data = {"10%","20%","30%","40%","50%","60%","70%","80%","90%"};
+        picker_pressure.setDisplayedValues(data);
+        picker_pressure.setMaxValue(data.length - 1);
+        picker_pressure.setMinValue(5);
+		
+	}
+
+	class ContentAdapter extends PagerAdapter{
+    	
+        public List<View> mListViews;
+         
+        public ContentAdapter(List<View> mListViews) {
+            this.mListViews = mListViews;
+        }
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return mListViews.size();
+		}
+
+		@Override
+		public boolean isViewFromObject(View arg0, Object arg1) {
+			// TODO Auto-generated method stub
+			return arg0 == arg1;
+		}
+		@Override
+		public void destroyItem(ViewGroup container, int position, Object object) {
+			// TODO Auto-generated method stub
+			container.removeView((View)object);
+		}
+		@Override
+		public Object instantiateItem(ViewGroup container, int position) {
+			container.addView(mListViews.get(position));
+		
+			return mListViews.get(position);
+		}
+
+	};
+
+    
+    
+    
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
+        if (mBluetoothLeService != null) {
+        	
+            final boolean result = mBluetoothLeService.connect(mDeviceAddress);
+            Log.d("TAG", "Connect request result=" + result);
+            if (result) {
+                Toast.makeText(HomeActivity.this,  "Connect request result=" + "连接成功", Toast.LENGTH_LONG).show();
+			}
+
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mGattUpdateReceiver);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(mServiceConnection);
+        mBluetoothLeService = null;
+
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.openblueth, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_conn:
+				Intent intent = new Intent(HomeActivity.this,BloothActivity.class);
+				startActivity(intent);
+                break;
+
+        }
+        return true;
+    }    
+    
+    
+    
+    
+}

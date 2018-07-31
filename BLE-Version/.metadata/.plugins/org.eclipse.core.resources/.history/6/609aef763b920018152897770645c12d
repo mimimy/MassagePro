@@ -1,0 +1,15 @@
+package com.massage.activity;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
+
+public class BluetoothActivity extends Activity {
+	private Handler mHandler= new Handler()
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+	}
+
+}

@@ -1,0 +1,63 @@
+package com.massage.adapter;
+
+import java.util.ArrayList;
+
+import com.massage.activity.R;
+
+import android.bluetooth.BluetoothDevice;
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+public class DeviceAdapter  extends BaseAdapter{
+	private ArrayList<BluetoothDevice> mDevice;
+	private Context mContext;
+	
+	
+	public DeviceAdapter(ArrayList<BluetoothDevice> mDevice, Context mContext) {
+		super();
+		this.mDevice = mDevice;
+		this.mContext = mContext;
+	}
+
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		return mDevice.size();
+	}
+
+	@Override
+	public Object getItem(int position) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long getItemId(int position) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		// TODO Auto-generated method stub
+		ViewHolder viewHolder;
+		if (convertView == null) {
+			convertView = View.inflate(mContext, R.layout.item, null);
+			viewHolder = new ViewHolder();
+			viewHolder.mTvName = (TextView) convertView.findViewById(R.id.tv_name);
+			viewHolder.mTvAddress = (TextView) convertView.findViewById(R.id.tv_address);
+			convertView.setTag(viewHolder);
+		}else {
+			viewHolder= (ViewHolder) convertView.getTag();
+		}
+		return null;
+	}
+	class ViewHolder{
+		TextView mTvName;
+		TextView mTvAddress;
+	}
+
+}

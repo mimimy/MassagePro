@@ -1,0 +1,8 @@
+package com.massage.activity.ui;
+
+import android.widget.TextView;
+
+public class BasePager {
+
+	public TextView tvShowContent;
+}

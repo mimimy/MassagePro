@@ -1,0 +1,22 @@
+package com.massage.activity.ui;
+
+import android.R;
+import android.app.Activity;
+import android.view.View;
+import android.widget.TextView;
+
+public class BasePager {
+
+	public TextView tvShowContent;
+	public Activity mActivity;
+	public BasePager(Activity activity) {
+		// TODO Auto-generated constructor stub
+		mActivity = activity;
+	}
+	
+	public View initView() {
+		View view = View.inflate(mActivity, R.layout.ba, root)
+		return tvShowContent;
+		
+	}
+}

@@ -1,0 +1,15 @@
+com.android.ide.eclipse.ddms.logcat.level=210
+com.android.ide.eclipse.ddms.logcat.message=774
+com.android.ide.eclipse.ddms.logcat.pid=46
+com.android.ide.eclipse.ddms.logcat.tag=480
+com.android.ide.eclipse.ddms.logcat.time=276
+ddms.logcat.auotmonitor.level=error
+ddms.logcat.automonitor.userprompt=true
+eclipse.preferences.version=1
+logcat.view.colsize.Application=156
+logcat.view.colsize.Level=43
+logcat.view.colsize.PID=58
+logcat.view.colsize.TID=58
+logcat.view.colsize.Tag=119
+logcat.view.colsize.Text=613
+logcat.view.colsize.Time=150

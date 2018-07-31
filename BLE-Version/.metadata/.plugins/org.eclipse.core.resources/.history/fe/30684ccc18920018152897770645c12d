@@ -1,0 +1,7 @@
+package com.massage.adapter;
+
+import android.widget.BaseAdapter;
+
+public class DeviceAdapter  extends BaseAdapter{
+
+}

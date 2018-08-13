@@ -4,12 +4,12 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-	<android.support.v4.view.ViewPager
+	<com.massage.activity.ui.NoScrollViewPager
 	    android:id="@+id/viewPager"
 	   	android:layout_width="match_parent"
     	android:layout_height="0dp"
     	android:layout_weight="1">
-	</android.support.v4.view.ViewPager>
+	</com.massage.activity.ui.NoScrollViewPager>
 
 	<RadioGroup
 	    android:id="@+id/radioGroup"
@@ -31,7 +31,7 @@
 	       android:drawableLeft="@drawable/tab_home_selector"
 	       android:drawablePadding="0dp"
 	       android:gravity="center"
-	       android:text="按摩模式"
+	       android:text="拔罐模式"
 	       android:textColor="@color/txt_tab_selector" />
 
 	   <RadioButton
@@ -45,7 +45,7 @@
 	       android:drawableLeft="@drawable/tab_bg_selector"
 	       android:drawablePadding="0dp"
 	       android:gravity="center"
-	       android:text="拔罐模式"
+	       android:text="按摩模式"
 	       android:textColor="@color/txt_tab_selector" />
 
 	</RadioGroup>

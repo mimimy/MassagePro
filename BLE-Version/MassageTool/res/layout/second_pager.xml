@@ -1,11 +1,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:padding="25px"
+    android:paddingTop="15dp"
+    android:paddingBottom="5dp"
+    android:paddingLeft="25dp"
+    android:paddingRight="25dp"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
     <TextView
+        
         android:id="@+id/tv_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,86 +18,96 @@
       <TextView
         android:background="#1E90FF"
         android:layout_width="fill_parent"
+        android:layout_marginBottom="10dp"
         android:layout_height="1px"/>
  
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
         android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_weight="1">
+        android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#1E90FF"
+            android:padding="5dp"
             android:textAppearance="?android:attr/textAppearanceLarge" 
             android:text="时间" />
 
         <Spinner
-            android:id="@+id/spinner_time"
-            android:layout_marginLeft="50px"
+            android:id="@+id/spinner_time_m"
+            android:layout_marginLeft="35dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tv_countTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:layout_weight="3">
-
+        android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/textView3"
-            android:background="#1E90FF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#1E90FF"
+            android:padding="5dp"
             android:textAppearance="?android:attr/textAppearanceLarge" 
-            android:text="压力" />
+            android:text="频率" />
 
         <NumberPicker
-            android:id="@+id/picker_pressure"
-            android:layout_marginLeft="50px"
-            android:layout_width="wrap_content"
+            android:id="@+id/picker_frequency"
+            android:layout_marginLeft="30dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:layout_weight="3">
-
+        android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/textView0"
             android:background="#1E90FF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:textAppearance="?android:attr/textAppearanceLarge" 
             android:text="强度" />
 
         <NumberPicker
             android:id="@+id/picker_density"
-            android:layout_marginLeft="50px"
-            android:layout_width="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
     
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_weight="2">
+        android:gravity="center" >
 
         <Button
-            android:id="@+id/btn_click"
+            android:id="@+id/btn_click_m"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:background="#1E90FF"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"          
+            android:text="开始" />
 
     </LinearLayout>
 

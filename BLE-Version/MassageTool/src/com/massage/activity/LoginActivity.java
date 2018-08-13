@@ -87,7 +87,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 		switch (v.getId()) {
 		case R.id.bt_login:
 			login();
-		Intent	intent = new Intent(this, HomeActivity.class);
+		Intent	intent = new Intent(this, DeviceScanActivity.class);
 		startActivity(intent);
 			break;
 
